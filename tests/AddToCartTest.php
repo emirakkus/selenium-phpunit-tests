@@ -7,7 +7,7 @@ use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverWait;
 
-class LoginTest extends TestCase
+class AddToCartTest extends TestCase
 {
     protected $driver;
 
@@ -21,18 +21,26 @@ class LoginTest extends TestCase
         );
     }
 
-    public function testLogin()
+    public function testAddToCart()
     {
         $this->driver->get('https://www.saucedemo.com/');
-
         $this->driver->findElement(WebDriverBy::id('user-name'))->sendKeys('standard_user');
         $this->driver->findElement(WebDriverBy::id('password'))->sendKeys('secret_sauce');
         $this->driver->findElement(WebDriverBy::id('login-button'))->click();
 
         $wait = new WebDriverWait($this->driver, 10);
-        $wait->until(WebDriverExpectedCondition::titleContains('Swag Labs'));
+        $wait->until(WebDriverExpectedCondition::elementToBeClickable(WebDriverBy::cssSelector('.inventory_item:first-child .btn_inventory')));
+        
+        // Sepete ürün ekle
+        $this->driver->findElement(WebDriverBy::cssSelector('.inventory_item:first-child .btn_inventory'))->click();
 
-        $this->assertStringContainsString('Swag Labs', $this->driver->getTitle());
+        // Sepete git
+        $this->driver->findElement(WebDriverBy::className('shopping_cart_link'))->click();
+
+        $wait->until(WebDriverExpectedCondition::presenceOfElementLocated(WebDriverBy::className('cart_item')));
+        $cartItems = $this->driver->findElements(WebDriverBy::className('cart_item'));
+
+        $this->assertCount(1, $cartItems, "Sepette 1 ürün olmalı");
         sleep(10);
     }
 

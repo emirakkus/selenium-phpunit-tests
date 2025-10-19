@@ -1,1 +1,1 @@
-{"version":2,"defects":{"LoginTest::testLogin":7},"times":{"LoginTest::testLogin":1.948}}
+{"version":2,"defects":{"LoginTest::testLogin":7,"AddToCartTest::testAddToCart":7,"CheckoutTest::testCheckout":8},"times":{"LoginTest::testLogin":12.071,"AddToCartTest::testAddToCart":12.762,"CheckoutTest::testCheckout":13.479}}
